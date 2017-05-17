@@ -110,7 +110,9 @@ app.get('/data/:metric/:channel', function (req, res) {
   res.json(CurrentResults[metric][channel]);
 })
 
-app.listen(3000, function () {
+port = process.env.PORT || 80;
+
+app.listen(port, function () {
   console.log('Example app listening on port 3000!')
 })
 
