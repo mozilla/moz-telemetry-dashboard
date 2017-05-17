@@ -9,7 +9,7 @@
 <div id="viz"></div>
 
 <script>
-  let dashboard = window.location.hash.slice(1);
+  let dashboard = window.location.href.split("?")[1];
   if (!DASHBOARDS[dashboard]) {
     alert("No dashboard for "+dashboard);
   } else {
