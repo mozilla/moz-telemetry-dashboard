@@ -96,33 +96,32 @@ function trim_dates_evolutions(evolutions, first_date) {
     return ret;
 }
 
-function render_evolution(
-    channel, histogram, title, values, days) {
-        d3.json('data/' +
-                histogram + '/' +
-                channel, function(data) {
-                    
-                    data = merge_evolutions(data);
-                    data = trim_dates_evolutions(data,
-                                                 new Date(Date.now() -
-                                                          days * 86400 * 1000));
-                        
-                    let to_graph = [];
-                    let labels = []
-                    for (k in values) {
-                        to_graph.push(data[k]);
-                        labels.push(values[k]);
-                    }
-                    MG.data_graphic({
-                        title : title,
-                        data : to_graph,
-                        width : 1200,
-                        height: 800,
-                        x_accessor: 'date',
-                        y_accessor: 'value',
-                        show_rollover_text: false,
-                        legend: labels,
-                        legend_target: "#legend"
-                    });
+function render_evolution(spec) {
+    console.log("Rendering " + JSON.stringify(spec));
+    d3.json('data/' +
+            spec.histogram + '/' +
+            spec.channel, function(data) {
+                data = merge_evolutions(data);
+                data = trim_dates_evolutions(data,
+                                             new Date(Date.now() -
+                                                      spec.days * 86400 * 1000));
+                
+                let to_graph = [];
+                let labels = []
+                for (k in spec.values) {
+                    to_graph.push(data[k]);
+                    labels.push(spec.values[k]);
+                }
+                MG.data_graphic({
+                    title : spec.title,
+                    data : to_graph,
+                    width : 1200,
+                    height: 800,
+                    x_accessor: 'date',
+                    y_accessor: 'value',
+                    show_rollover_text: false,
+                    legend: labels,
+                    legend_target: "#legend"
                 });
+            });
 }

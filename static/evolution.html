@@ -2,18 +2,17 @@
 <script src="/metrics-graphics-2.11.0/dist/metricsgraphics.min.js"></script>
 <link href="/metrics-graphics-2.11.0/dist/metricsgraphics.css" rel="stylesheet" type="text/css">
 <script src="/evolution.js"></script>
+<script src="/catalog.js"></script>
 </head>
 
 <div id="legend"></div>
 <div id="viz"></div>
 
 <script>
-   render_evolution(
-     "beta", "HTTP_PAGELOAD_IS_SSL", "Fraction of page loads that are HTTPS",
-       {
-           0: "Insecure",
-           1: "Secure"
-           },
-       365
-     );
+  let dashboard = window.location.hash.slice(1);
+  if (!DASHBOARDS[dashboard]) {
+    alert("No dashboard for "+dashboard);
+  } else {
+   render_evolution(DASHBOARDS[dashboard]);
+  }  
 </script>
