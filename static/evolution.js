@@ -115,8 +115,8 @@ function render_evolution(spec) {
                 MG.data_graphic({
                     title : spec.title,
                     data : to_graph,
-                    width : 1200,
-                    height: 800,
+                    width : window.innerWidth * .95,
+                    height: window.innerHeight * .95,
                     x_accessor: 'date',
                     y_accessor: 'value',
                     show_rollover_text: false,
