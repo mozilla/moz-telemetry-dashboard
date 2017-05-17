@@ -113,7 +113,7 @@ app.get('/data/:metric/:channel', function (req, res) {
 port = process.env.PORT || 80;
 
 app.listen(port, function () {
-  console.log('Example app listening on port 3000!')
+  console.log('Listening');
 })
 
 app.use(express.static('static'));
