@@ -95,6 +95,11 @@ function reinit() {
 
 reinit();
 
+app.all('/*', (req, res, next) => {
+  res.set('access-control-allow-origin', '*');
+  next();
+});
+
 app.get('/data/:metric/:channel', function (req, res) {
   let metric = req.params.metric;
   let channel = req.params.channel;
