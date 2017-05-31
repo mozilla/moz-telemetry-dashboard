@@ -14,7 +14,7 @@ function convert_date(d) {
     return null;
 
   let dstr = d.slice(0,4) + "-" + d.slice(4,6) + "-" + d.slice(6);
-  
+
   return new Date(parseInt(d.slice(0,4)),
                   parseInt(d.slice(4,6))-1,
                   parseInt(d.slice(6)));
@@ -41,18 +41,28 @@ function merge_evolutions(ev) {
 
   console.log(temp);
   console.log(bydate['20170312']);
-  
+
   for (d in bydate) {
     let s = d3.sum(bydate[d]);
     for (i in bydate[d]) {
       bydate[d][i] = bydate[d][i]/s;
     }
   }
-  
+
+  // Smooth data using a weighted moving average
+  let EMA_FACTOR = (1 / 10);
+  let ema = {};
+  for (d in bydate) {
+    for (i in bydate[d]) {
+      ema[i] = ema[i] ? ema[i] * (1 - EMA_FACTOR) + bydate[d][i] * EMA_FACTOR : bydate[d][i]
+      bydate[d][i] = ema[i];
+    }
+  }
+
   // Now we need to invert into a dictionary keyed by histogram key.
   let res = [];
   let dates = Object.keys(bydate).sort();
-  
+
   for (i in dates) {
     let date = dates[i];
     for (j in bydate[date]) {
@@ -60,7 +70,7 @@ function merge_evolutions(ev) {
       if (!res[k]) {
         res[k] = [];
       }
-      let to_add = {'date':convert_date(date), 'value':bydate[date][k]}; 
+      let to_add = {'date':convert_date(date), 'value':bydate[date][k]};
       if ((k === "3") && (date == '20170412')) {
         console.log(to_add);
       }
@@ -75,7 +85,6 @@ function merge_evolutions(ev) {
     })
   }
 
-  console.log(res[3]);
   return res;
 }
 
@@ -105,7 +114,7 @@ function render_evolution(spec) {
                 data = trim_dates_evolutions(data,
                                              new Date(Date.now() -
                                                       spec.days * 86400 * 1000));
-                
+
                 let to_graph = [];
                 let labels = []
                 for (k in spec.values) {
