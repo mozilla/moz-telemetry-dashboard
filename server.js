@@ -11,7 +11,7 @@ var Metrics = [
 var Channels = ["beta" ];
 var CurrentResults = undefined;
 
-const maxVersion = 54;
+const maxVersion = 100;
 const minVersion = 44;
 function collectEvolution(channel, version, metric, cb) {
   console.log("Collecting " + metric + ":" + channel + ":" + version);
